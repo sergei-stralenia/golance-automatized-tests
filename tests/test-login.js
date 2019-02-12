@@ -6,7 +6,27 @@
 */
 
 module.exports = {
-  'Login Testing': function (browser) {
+  beforeEach: function(browser, done) {
+    browser.resizeWindow(1280, 800, done);
+  },
+
+  'Successful Login Testing': function (browser) {
+    browser
+      .url('https://new-ui-stage.golance.com')
+      .waitForElementVisible('body')
+      .pause(1000)
+      .click('a.button-nav-login')
+      .waitForElementVisible('body')
+      .pause(1000);
+
+    browser
+      .assert.urlContains('login')
+      .assert.title('Login | goLance');
+
+    browser.end();
+  },
+
+  'Failed Login Testing': function (browser) {
     browser
       .url('https://new-ui-stage.golance.com')
       .waitForElementVisible('body')

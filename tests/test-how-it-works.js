@@ -7,7 +7,11 @@
 */
 
 module.exports = {
-  'How it Works Pages Testing': function (browser) {
+  beforeEach: function(browser, done) {
+    browser.resizeWindow(1280, 800, done);
+  },
+
+  'How It Works Pages Testing': function (browser) {
     browser
       .url('https://new-ui-stage.golance.com')
       .waitForElementVisible('body')
