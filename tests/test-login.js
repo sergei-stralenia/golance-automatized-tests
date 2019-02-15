@@ -10,7 +10,7 @@ module.exports = {
     browser.resizeWindow(1280, 800, done);
   },
 
-  'Successful Login Testing': function (browser) {
+  'Successful Login Testing': function(browser) {
     browser
       .url('https://new-ui-stage.golance.com')
       .waitForElementVisible('body')
@@ -21,12 +21,27 @@ module.exports = {
 
     browser
       .assert.urlContains('login')
-      .assert.title('Login | goLance');
+      .assert.title('Login | goLance')
+      .assert.elementPresent('input[type=email]')
+      .assert.elementPresent('input[type=password]')
+      .assert.elementPresent('.login-button');
+
+    browser
+      .setValue('input[type=email]', 's.stralenia@paralect.com')
+      .setValue('input[type=password]', '1234321')
+      .click('.login-button')
+      .waitForElementVisible('body')
+      .pause(1000);
+
+    browser
+      .assert.urlEquals('https://stage.golance.com/')
+      .assert.title('Dashboard')
+      .expect.element('main').text.to.contain('WEEKLY ACTIVITY');
 
     browser.end();
   },
 
-  'Failed Login Testing': function (browser) {
+  'Failed Login Testing': function(browser) {
     browser
       .url('https://new-ui-stage.golance.com')
       .waitForElementVisible('body')
@@ -37,7 +52,23 @@ module.exports = {
 
     browser
       .assert.urlContains('login')
-      .assert.title('Login | goLance');
+      .assert.title('Login | goLance')
+      .assert.elementPresent('input[type=email]')
+      .assert.elementPresent('input[type=password]')
+      .assert.elementPresent('.login-button');
+
+    browser
+      .setValue('input[type=email]', 's.stralenia@paralect.com')
+      .setValue('input[type=password]', '1234123')
+      .click('.login-button')
+      .waitForElementVisible('body')
+      .pause(1000);
+
+    browser
+      .assert.urlContains('login')
+      .assert.title('Login | goLance')
+      .assert.elementPresent('.validation-errors')
+      .expect.element('main').text.to.contain('Login or password is invalid.');
 
     browser.end();
   },
